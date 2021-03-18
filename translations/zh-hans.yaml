@@ -1,0 +1,42 @@
+nodeDriver:
+  harvester:
+    cloudconfig:
+      label: Cloud Config YAML
+    imageName:
+      label: 镜像
+    diskBus:
+      label: 磁盘 Bus
+    access:
+      title: '1. 帐户访问'
+      detail: 配置在哪里查找 Harvester 服务器
+    instance:
+      title: 2. 实例配置
+      detail: 选择虚拟机的大小和操作系统
+    host:
+      label: 主机
+      placeholder: IP/Domain
+    port:
+      label: 端口
+    username:
+      label: 用户名
+    internal: 内部 Harvester
+    external: 外部 Harvester
+    sshUser:
+      label: SSH 用户名
+    networkName:
+      label: 网络
+    password:
+      label: 密码
+    cpuCount:
+      label: CPUs
+      unit: '{cores, plural, =1 {Core} other {Cores}}'
+    memorySize:
+      label: 内存
+      unit: GiB
+    diskSize:
+      label: 磁盘
+      unit: GiB
+    cloudConfig:
+      label: Cloud config
+    cloudinit:
+      label: Cloud Init
