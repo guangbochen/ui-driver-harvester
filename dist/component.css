@@ -1,4 +1,4 @@
-.machine-driver.%%DRIVERNAME%% {
+.machine-driver.harvester {
   background-image: url('harvester.svg');
   transform: scale(0.6)
 }

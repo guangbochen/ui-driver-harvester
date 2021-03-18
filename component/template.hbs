@@ -3,57 +3,193 @@
     {{!-- This line shows the driver title which you don't have to change it --}}
     <div class="over-hr mb-20"><span>{{driverOptionsTitle}}</span></div>
 
-    {{!-- An example input option --}}
-    <div class="row box mt-20">
-      <h4>Instance Options</h4>
+    {{#accordion-list-item
+      title=(t "nodeDriver.harvester.access.title")
+      detail=(t "nodeDriver.harvester.access.detail")
+      expandAll=expandAll
+      expand=(action expandFn)
+      expandOnInit=true
+    }}
+
       <div class="row">
-        <div class="col span-2 col-inline">
-          <label>CPUs</label>
+        <div class="col span-6">
+          <label class="acc-label">
+            {{t "nodeDriver.harvester.host.label"}}{{field-required}}
+          </label>
+          {{input
+            classNames="form-control"
+            id="server-url"
+            value=config.host
+            placeholder=(t "nodeDriver.harvester.host.placeholder")
+          }}
+        </div>
+        <div class="col span-6">
+          <label class="acc-label">
+            {{t "nodeDriver.harvester.port.label"}}{{field-required}}
+          </label>
+          {{input-integer
+            min=1
+            max=65535
+            class="form-control"
+            value=config.port
+          }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">
+            {{t "nodeDriver.harvester.username.label"}}{{field-required}}
+          </label>
+          {{input
+            type="text"
+            value=config.username
+            classNames="form-control"
+          }}
         </div>
 
-        <div class="col span-1">
-          {{config.cpuCount}}
+        <div class="col span-6">
+          <label class="acc-label">
+            {{t "nodeDriver.harvester.password.label"}}{{field-required}}
+          </label>
+          {{input
+            type="password"
+            value=config.password
+            classNames="form-control"
+          }}
         </div>
-        <div class="col span-3">
-          {{input-slider value=config.cpuCount valueMin=1 valueMax=32}}
-        </div>
+      </div>
 
-        <div class="col span-2 col-inline">
-          <label>Memory Size</label>
-        </div>
-        <div class="col span-4">
+    {{/accordion-list-item}}
+
+    {{#accordion-list-item
+      title=(t "nodeDriver.harvester.instance.title")
+      detail=(t "nodeDriver.harvester.instance.detail")
+      expandAll=expandAll
+      expand=(action expandFn)
+      expandOnInit=true
+    }}
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">
+            {{t "nodeDriver.harvester.cpuCount.label"}}{{field-required}}
+          </label>
           <div class="input-group">
-            {{input-integer min=1 value=config.memorySize classNames="form-control"}}
-            <div class="input-group-addon bg-default">MB</div>
+            {{input-integer
+              min=1
+              max=32
+              value=config.cpuCount
+              classNames="form-control"
+            }}
+            <div class="input-group-addon bg-default">
+              {{t "nodeDriver.harvester.cpuCount.unit" cores=config.cpuCount}}
+            </div>
+          </div>
+        </div>
+
+        <div class="col span-6">
+          <label class="acc-label">
+            {{t "nodeDriver.harvester.memorySize.label"}}{{field-required}}
+          </label>
+          <div class="input-group">
+            {{input-integer
+              min=1
+              value=config.memorySize
+              classNames="form-control"
+            }}
+            <div class="input-group-addon bg-default">
+              {{t "nodeDriver.harvester.memorySize.unit"}}
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    {{!-- This following contains the Name, Labels and Engine Options fields --}}
-    <div class="over-hr"><span>{{templateOptionsTitle}}</span></div>
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">
+            {{t "nodeDriver.harvester.diskSize.label"}}{{field-required}}
+          </label>
+          <div class="input-group">
+            {{input-integer
+              min=1
+              value=config.diskSize
+              classNames="form-control"
+            }}
+            <div class="input-group-addon bg-default">
+              {{t "nodeDriver.harvester.diskSize.unit"}}
+            </div>
+          </div>
+        </div>
 
-    {{form-name-description
-      model=model
-      nameRequired=true
-    }}
+        <div class="col span-6">
+          <label class="acc-label">
+            {{t "nodeDriver.harvester.diskBus.label"}}{{field-required}}
+          </label>
+          <NewSelect
+            @class="form-control"
+            @useContentForDefaultValue={{true}}
+            @content={{busContent}}
+            @value={{config.diskBus}}
+          />
+        </div>
+      </div>
 
-    {{form-user-labels
-      initialLabels=labelResource.labels
-      setLabels=(action 'setLabels')
-      expandAll=expandAll
-      expand=(action expandFn)
-    }}
+      <div class="row">
+        <div class="col span-6">
+          <label class="acc-label">
+            {{t "nodeDriver.harvester.imageName.label"}}{{field-required}}
+          </label>
+          {{input
+            type="text"
+            value=config.imageName
+            classNames="form-control"
+          }}
+        </div>
 
-    {{form-engine-opts
-      machine=model
-      showEngineUrl=showEngineUrl
-    }}
+        <div class="col span-6">
+          <label class="acc-label">
+            {{t "nodeDriver.harvester.sshUser.label"}}{{field-required}}
+          </label>
+          {{input
+            type="text"
+            value=config.sshUser
+            classNames="form-control"
+          }}
+        </div>
+      </div>
+    {{/accordion-list-item}}
+    
   {{/accordion-list}}
 
-  {{!-- This component shows errors produced by validate() in the component --}}
+  <div class="over-hr">
+    <span>
+      {{templateOptionsTitle}}
+    </span>
+  </div>
+
+  {{form-name-description
+    model=model
+    nameRequired=true
+    rowClass="row mb-10"
+  }}
+
+  {{form-user-labels
+    initialLabels=labelResource.labels
+    setLabels=(action "setLabels")
+    expand=(action expandFn)
+  }}
+
+  {{form-node-taints
+    model=model
+    expand=(action expandFn)
+  }}
+
+  {{form-engine-opts
+    machine=model
+    showEngineUrl=showEngineUrl
+  }}
+
   {{top-errors errors=errors}}
 
-  {{!-- This component shows the Create and Cancel buttons --}}
-  {{save-cancel save="save" cancel="cancel"}}
+  {{save-cancel save=(action "save") cancel=(action "cancel") editing=editing }}
 </section>

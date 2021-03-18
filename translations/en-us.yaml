@@ -1,0 +1,38 @@
+nodeDriver:
+  harvester:
+    cloudconfig:
+      label: Cloud Config YAML
+    imageName:
+      label: Image
+    diskBus:
+      label: Bus
+    access:
+      title: 1. Account Access
+      detail: Configure where to find the Harvester server
+    instance:
+      title: 2. Instance Options
+      detail: Choose the size and OS of the virtual machine
+    host:
+      label: Harvester Host
+      placeholder: harvester.domain.com
+    port:
+      label: Port
+    username:
+      label: Username
+    sshUser:
+      label: SSH User
+    password:
+      label: Password
+    cpuCount:
+      label: CPUs
+      unit: '{cores, plural, =1 {Core} other {Cores}}'
+    memorySize:
+      label: Memory
+      unit: GiB
+    diskSize:
+      label: Disk
+      unit: GiB
+    cloudConfig:
+      label: Cloud config
+    cloudinit:
+      label: Cloud Init
