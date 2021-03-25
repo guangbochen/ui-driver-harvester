@@ -3,18 +3,10 @@
 
 name: CI of the Harvester Node UI
 
-on:
-  push:
-    branches:
-    - master
-    - 'releases/**'
-  pull_request:
-    branches:
-    - master
+on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -23,7 +15,9 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
